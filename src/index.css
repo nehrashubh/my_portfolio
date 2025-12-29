@@ -1,0 +1,323 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600;700&display=swap');
+
+@layer base {
+  :root {
+    /* =========================================
+       DEFAULT THEME (Retro Green)
+       Text: GREEN | Highlights: AMBER
+       ========================================= */
+    --background: 0 0% 4%; /* #0a0a0a */
+
+    /* PRIMARY (Main Text - Green) */
+    --primary: 120 100% 60%; /* #33ff33 */
+    --primary-foreground: 0 0% 4%;
+
+    /* ACCENT (Highlights/Cursor - Amber) */
+    --accent: 45 100% 50%; /* #ffb000 */
+    --accent-foreground: 0 0% 4%;
+
+    /* Mappings for Tailwind */
+    --foreground: var(--primary);
+    --card: 0 0% 6%;
+    --card-foreground: var(--primary);
+    --popover: 0 0% 6%;
+    --popover-foreground: var(--primary);
+
+    --secondary: 120 60% 25%;
+    --secondary-foreground: var(--primary);
+
+    --muted: 120 20% 15%;
+    --muted-foreground: 120 40% 50%;
+
+    --destructive: 0 100% 50%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 120 60% 20%;
+    --input: 120 60% 20%;
+    --ring: var(--primary);
+
+    --radius: 0.25rem;
+
+    /* Green Glows */
+    --terminal-glow: 0 0 10px hsl(120 100% 60% / 0.5),
+      0 0 20px hsl(120 100% 60% / 0.3);
+    --crt-curve: 2px;
+  }
+
+  /* =========================================
+     AMBER THEME (Eye Care)
+     Text: AMBER | Highlights: GREEN
+     ========================================= */
+  .theme-amber {
+    /* PRIMARY (Main Text - Amber) */
+    --primary: 35 100% 55%; /* Warm Amber */
+    --foreground: var(--primary);
+    --card-foreground: var(--primary);
+
+    /* ACCENT (Highlights - Green) */
+    --accent: 120 100% 60%; /* #33ff33 */
+
+    /* Adjust secondary colors to match Amber */
+    --secondary: 35 60% 25%;
+    --secondary-foreground: var(--primary);
+    --muted: 35 20% 15%;
+    --muted-foreground: 35 40% 50%;
+    --border: 35 60% 20%;
+    --input: 35 60% 20%;
+
+    /* Amber Glows */
+    --terminal-glow: 0 0 10px hsl(35 100% 55% / 0.4),
+      0 0 20px hsl(35 100% 55% / 0.2);
+  }
+
+  /* =========================================
+     CYAN THEME (Ice / Future)
+     Text: CYAN | Highlights: MAGENTA
+     ========================================= */
+  .theme-cyan {
+    /* PRIMARY (Main Text - Electric Blue/Cyan) */
+    --primary: 190 100% 50%; /* #00f0ff */
+    --foreground: var(--primary);
+    --card-foreground: var(--primary);
+
+    /* ACCENT (Highlights - Hot Pink/Magenta) */
+    --accent: 300 100% 50%; /* #ff00ff */
+
+    /* Adjust secondary colors to match Cyan */
+    --secondary: 190 60% 25%;
+    --secondary-foreground: var(--primary);
+    --muted: 190 20% 15%;
+    --muted-foreground: 190 40% 50%;
+    --border: 190 60% 20%;
+    --input: 190 60% 20%;
+
+    /* Cyan Glows (Softer, icy glow) */
+    --terminal-glow: 0 0 10px hsl(190 100% 50% / 0.4),
+      0 0 20px hsl(190 100% 50% / 0.2);
+  }
+
+  * {
+    @apply border-border;
+  }
+  html {
+    font-family: 'IBM Plex Mono', monospace;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'IBM Plex Mono', monospace;
+  }
+
+  ::selection {
+    background: hsl(var(--primary));
+    color: hsl(var(--background));
+  }
+}
+
+@layer components {
+  /* Scanlines - Unchanged */
+  .scanlines {
+    pointer-events: none;
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0, 0, 0, 0.15) 2px,
+      rgba(0, 0, 0, 0.15) 4px
+    );
+  }
+
+  /* Flicker - Subtle */
+  .crt-flicker {
+    animation: flicker 0.15s infinite;
+  }
+  @keyframes flicker {
+    0% {
+      opacity: 0.88;
+    }
+    25% {
+      opacity: 0.95;
+    }
+    50% {
+      opacity: 1;
+    }
+    75% {
+      opacity: 0.92;
+    }
+    100% {
+      opacity: 0.88;
+    }
+  }
+
+  .text-glow {
+    text-shadow: var(--terminal-glow);
+  }
+
+  /* Window Styling */
+  .terminal-window {
+    @apply bg-card border border-border rounded-sm;
+    box-shadow: inset 0 0 30px rgba(0, 0, 0, 0.5),
+      0 0 10px hsl(var(--primary) / 0.1);
+  }
+
+  .terminal-header {
+    @apply flex items-center gap-2 px-3 py-2 border-b border-border;
+    background: linear-gradient(
+      180deg,
+      hsl(var(--muted)) 0%,
+      hsl(var(--card)) 100%
+    );
+  }
+
+  /* === FIXED WINDOW DOTS (HARDCODED COLORS) === */
+  /* These will ignore theme variables and always look like traffic lights */
+  .terminal-dot {
+    @apply w-2.5 h-2.5 rounded-full;
+  }
+
+  .terminal-dot-red {
+    background-color: #ff5f56 !important;
+    box-shadow: 0 0 5px #ff5f56;
+  }
+
+  .terminal-dot-yellow {
+    background-color: #ffbd2e !important;
+    box-shadow: 0 0 5px #ffbd2e;
+  }
+
+  .terminal-dot-green {
+    background-color: #27c93f !important;
+    box-shadow: 0 0 5px #27c93f;
+  }
+
+  /* Typing Cursor */
+  .typing-cursor {
+    @apply inline-block w-2.5 h-5 bg-primary ml-1;
+    animation: blink 1s step-end infinite;
+  }
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
+  /* Command Line - Uses Primary for text, Accent for prompt */
+  .command-line {
+    @apply flex items-center gap-2 text-primary;
+  }
+  .command-prompt {
+    @apply text-accent font-bold;
+  }
+
+  /* Links */
+  .terminal-link {
+    @apply text-primary hover:text-accent transition-colors duration-200 cursor-pointer;
+  }
+  .terminal-link:hover {
+    text-shadow: 0 0 10px hsl(var(--accent) / 0.8);
+  }
+
+  /* Glitch Effect */
+  .glitch {
+    position: relative;
+  }
+  .glitch::before,
+  .glitch::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .glitch::before {
+    animation: glitch-1 0.3s infinite linear alternate-reverse;
+    clip-path: polygon(0 0, 100% 0, 100% 35%, 0 35%);
+    color: hsl(var(--destructive)); /* Red Glitch */
+  }
+
+  .glitch::after {
+    animation: glitch-2 0.3s infinite linear alternate-reverse;
+    clip-path: polygon(0 65%, 100% 65%, 100% 100%, 0 100%);
+    color: hsl(var(--accent)); /* Accent Glitch */
+  }
+
+  @keyframes glitch-1 {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-2px);
+    }
+  }
+  @keyframes glitch-2 {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(2px);
+    }
+  }
+
+  /* Animations */
+  .fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .boot-line {
+    opacity: 0;
+    animation: bootLine 0.3s ease-out forwards;
+  }
+  @keyframes bootLine {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  .matrix-bg {
+    background: radial-gradient(
+        ellipse at center,
+        transparent 0%,
+        hsl(var(--background)) 70%
+      ),
+      repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(51, 255, 51, 0.03) 2px,
+        rgba(51, 255, 51, 0.03) 4px
+      );
+  }
+}
+
+@layer utilities {
+  .crt-curve {
+    border-radius: var(--crt-curve);
+    box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.3),
+      inset 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+}
