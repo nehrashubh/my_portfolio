@@ -2,7 +2,7 @@
 
 A retro-futuristic, terminal-themed developer portfolio built with React, TypeScript, and Tailwind CSS. It features a fully functional CLI (Command Line Interface), multiple color themes (Phosphor Green, Amber, Cyan), and authentic CRT monitor effects.
 
-![NEHRA_OS Preview](public/preview.png)
+![NEHRA_OS Preview](public/preview.jpg)
 
 ## 🖥️ Features
 
